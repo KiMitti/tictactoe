@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import { useGlobalContext } from './context';
 
 const History = () => {
@@ -8,34 +9,50 @@ const History = () => {
     `Row 1 Col 3`,
     `Row 2 Col 1`,
     `Row 2 Col 2`,
-    `Row 2 Col 2`,
+    `Row 2 Col 3`,
     `Row 3 Col 1`,
     `Row 3 Col 2`,
     `Row 3 Col 3`,
   ];
+  const [historyReverse, setHistoryReverse] = useState(false);
+  let mappedHistory = [...history];
 
+  if (historyReverse) {
+    mappedHistory = [...history].reverse();
+  }
   return (
     <div className='game-info'>
-      {history.length >= 0 && (
-        <ol>
-          {history.map((turn, index) => {
+      <button
+        className='btn btn-sm btn-orange mb-2'
+        onClick={() => setHistoryReverse(!historyReverse)}
+      >
+        {historyReverse ? `Normal Turn Order` : `Reverse Turn Order`}
+      </button>
+      {mappedHistory.length >= 0 && (
+        <ul>
+          {mappedHistory.map((turn, index) => {
             return (
               <li key={index}>
                 <a
                   href='#'
                   onClick={() => {
-                    goToTurn(index);
+                    goToTurn(turn.move);
                   }}
                   className={index === move ? 'turn active' : 'turn'}
                 >
-                  {index === 0
-                    ? `Go to Beginning`
-                    : `Turn number ${index} @ [${targets[turn.target]}]`}
+                  {!historyReverse &&
+                    (index === 0
+                      ? `Go to Beginning`
+                      : `Turn number ${index} @ [${targets[turn.target]}]`)}
+                  {historyReverse &&
+                    (index === mappedHistory.length - 1
+                      ? `Go to Beginning`
+                      : `Turn number ${turn.move} @ [${targets[turn.target]}]`)}
                 </a>
               </li>
             );
           })}
-        </ol>
+        </ul>
       )}
     </div>
   );
