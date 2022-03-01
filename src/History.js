@@ -1,12 +1,12 @@
 import { useGlobalContext } from './context';
 
 const History = () => {
-  const { history, goToTurn } = useGlobalContext();
+  const { history, goToTurn, move } = useGlobalContext();
   return (
     <div className='game-info'>
       {history.length >= 0 && (
         <ol>
-          {history.map((_, index) => {
+          {history.map((turn, index) => {
             return (
               <li key={index}>
                 <a
@@ -14,6 +14,7 @@ const History = () => {
                   onClick={() => {
                     goToTurn(index);
                   }}
+                  className={index === move ? 'turn active' : 'turn'}
                 >
                   {index === 0 ? `Go to Beginning` : `Turn number ${index}`}
                 </a>

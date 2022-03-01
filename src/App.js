@@ -6,10 +6,10 @@ import { useGlobalContext } from './context';
 const Game = () => {
   const { resetGame } = useGlobalContext();
   return (
-    <div className='game'>
+    <div className='game container pt-3'>
       <div className='game-board'>
         <Board />
-        <button className='reset' onClick={resetGame}>
+        <button className='btn btn-orange reset mt-3' onClick={resetGame}>
           Restart Game
         </button>
       </div>
