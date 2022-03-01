@@ -3,9 +3,11 @@ import React, { useState, useContext, useEffect, createContext } from 'react';
 const initialState = {
   xNext: true,
   winner: null,
+  winLine: null,
   squares: Array(9).fill(null),
   move: 0,
   history: [{ move: 0, squares: Array(9).fill(null), xNext: true }],
+  target: null,
 };
 
 const AppContext = createContext();
@@ -27,8 +29,6 @@ const AppProvider = ({ children }) => {
     if (!state.squares[target] && !state.winner) {
       //check to see if we're playing from a history state
       let newHistory = [...state.history];
-
-      console.log(`move: ${state.move} < history: ${state.history.length}`);
       if (state.move < state.history.length - 1) {
         const slice = state.history[state.move].move + 1;
         newHistory = state.history.slice(0, slice);
@@ -43,6 +43,7 @@ const AppProvider = ({ children }) => {
         squares: newSquares,
         move: state.move + 1,
         history: newHistory,
+        target: target,
       });
     }
   };
@@ -71,16 +72,22 @@ const AppProvider = ({ children }) => {
     //check for draw
     if (state.move >= 9) {
       setState((prevState) => {
-        return { ...prevState, winner: 'draw' };
+        return { ...prevState, winner: 'draw', line: null };
       });
     }
     const newSquares = state.squares;
     //If not, check for winner
     lines.map((line) => {
       const [a, b, c] = line;
-      if (newSquares[a] === newSquares[b] && newSquares[a] === newSquares[c]) {
+      if (
+        newSquares[a] &&
+        newSquares[b] &&
+        newSquares[c] &&
+        newSquares[a] === newSquares[b] &&
+        newSquares[a] === newSquares[c]
+      ) {
         setState((prevState) => {
-          return { ...prevState, winner: newSquares[a] };
+          return { ...prevState, winner: newSquares[a], winLine: line };
         });
       }
     });
@@ -88,8 +95,6 @@ const AppProvider = ({ children }) => {
 
   //keep a record
   const recordMove = () => {
-    console.log('history', state.history);
-
     setState((prevState) => {
       return {
         ...prevState,
@@ -97,6 +102,7 @@ const AppProvider = ({ children }) => {
           squares: state.squares,
           xNext: state.xNext,
           move: state.move,
+          target: state.target,
         }),
       };
     });
@@ -107,12 +113,13 @@ const AppProvider = ({ children }) => {
     const newSquares = state.history[index].squares;
     const newMove = state.history[index].move;
     const newTurn = state.history[index].xNext;
-    console.log(newSquares);
     setState({
       ...state,
       squares: newSquares,
+      winner: null,
       move: newMove,
       xNext: newTurn,
+      winLine: null,
     });
   };
 

@@ -2,7 +2,8 @@
 :root {
   --clr-blue: #366eb1;
   --clr-orange: #d5951e;
-  ---clr-black: #454545;
+  --clr-black: #454545;
+  --clr-yellow: #fef2b5;
 }
 body {
   font: 14px 'Century Gothic', Futura, sans-serif;
@@ -42,6 +43,13 @@ li {
   padding: 0;
   text-align: center;
   width: 60px;
+  color: var(--clr-blue);
+}
+.square.ocolor {
+  color: var(--clr-orange);
+}
+.square.highlight {
+  background-color: var(--clr-yellow);
 }
 
 .square:focus {
