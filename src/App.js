@@ -1,25 +1,21 @@
-import logo from './logo.svg';
 import './App.css';
+import Board from './Board';
+import History from './History';
+import { useGlobalContext } from './context';
 
-function App() {
+const Game = () => {
+  const { resetGame } = useGlobalContext();
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='game'>
+      <div className='game-board'>
+        <Board />
+        <button className='reset' onClick={resetGame}>
+          Restart Game
+        </button>
+      </div>
+      <History />
     </div>
   );
-}
+};
 
-export default App;
+export default Game;
