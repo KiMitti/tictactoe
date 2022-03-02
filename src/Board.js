@@ -4,6 +4,7 @@ const Board = () => {
   const { xNext, winner } = useGlobalContext();
 
   const status = `Next player: ${xNext ? 'X' : 'O'}`;
+  const squares = new Array(9).fill(null);
 
   return (
     <div>

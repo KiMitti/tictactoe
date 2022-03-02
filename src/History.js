@@ -21,7 +21,7 @@ const History = () => {
     mappedHistory = [...history].reverse();
   }
   return (
-    <div className='game-info'>
+    <div className='game-info col-sm'>
       <button
         className='btn btn-sm btn-orange mb-2'
         onClick={() => setHistoryReverse(!historyReverse)}
